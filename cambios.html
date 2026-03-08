@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olympus · Changelogs y actualizaciones</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend+Deca:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="particle-overlay"></div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="/assets/logo.png" alt="Olympus" height="50">
+                <span>OLYMPUS</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+                <li class="nav-item"><a href="historia.html" class="nav-link">Historia</a></li>
+                <li class="nav-item"><a href="sistemas.html" class="nav-link">Sistemas</a></li>
+                <li class="nav-item"><a href="aprendizaje.html" class="nav-link">Aprendizaje</a></li>
+                <li class="nav-item"><a href="cambios.html" class="nav-link active">Cambios</a></li>
+                <li class="nav-item"><a href="descargas.html" class="nav-link">Descargas</a></li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="wrapper">
+        <div class="page-header">
+            <i class="fas fa-history"></i>
+            <h1>Changelogs</h1>
+            <p class="page-description">Registro completo de commits y actualizaciones del proyecto</p>
+        </div>
+
+        <!-- Contenedor de estadísticas -->
+        <div id="stats-container" class="stats-bar" style="display: none;">
+            <!-- Se llenará con JavaScript -->
+        </div>
+
+        <!-- Contenedor principal de changelogs -->
+        <div class="changelog-full" id="changelog-container">
+            <div class="loading-message" id="loading-message">
+                <i class="fas fa-spinner"></i> Cargando historial de commits desde el repositorio...
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <a href="aprendizaje.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Aprendizaje</a>
+            <a href="https://olympuswow.github.io/Changelogs-cata" target="_blank" class="btn btn-primary">
+                <i class="fab fa-github"></i> Ver repositorio completo
+            </a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="index.html">Inicio</a>
+            <a href="historia.html">Historia</a>
+            <a href="sistemas.html">Sistemas</a>
+            <a href="aprendizaje.html">Aprendizaje</a>
+            <a href="cambios.html">Cambios</a>
+            <a href="descargas.html">Descargas</a>
+        </div>
+        <p class="footer-copyright"><i class="fas fa-hammer"></i> Olympus Cataclysm · 4.3.4</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const JSON_URL = 'https://olympuswow.github.io/Changelogs-cata/commits.json';
+            const container = document.getElementById('changelog-container');
+            const statsContainer = document.getElementById('stats-container');
+            const loadingMsg = document.getElementById('loading-message');
+
+            // Función para formatear fecha
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleString('es-ES', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    timeZoneName: 'short'
+                });
+            }
+
+            // Función para obtener ícono según tipo de archivo
+            function getFileIcon(filename) {
+                if (filename.endsWith('.sql')) return 'fa-database';
+                if (filename.endsWith('.cpp') || filename.endsWith('.h')) return 'fa-code';
+                if (filename.endsWith('.cmake') || filename.includes('CMake')) return 'fa-cubes';
+                if (filename.endsWith('.md') || filename.endsWith('.txt')) return 'fa-file-lines';
+                if (filename.endsWith('.json')) return 'fa-brackets-curly';
+                if (filename.endsWith('.sh')) return 'fa-terminal';
+                if (filename.includes('COPYING') || filename.includes('README')) return 'fa-book';
+                return 'fa-file-code';
+            }
+
+            // Función para agrupar commits por mes
+            function groupByMonth(commits) {
+                const groups = {};
+                
+                commits.forEach(commit => {
+                    const date = new Date(commit.date);
+                    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                    const monthName = date.toLocaleString('es-ES', { year: 'numeric', month: 'long' });
+                    
+                    if (!groups[monthKey]) {
+                        groups[monthKey] = {
+                            name: monthName,
+                            commits: []
+                        };
+                    }
+                    groups[monthKey].commits.push(commit);
+                });
+
+                // Ordenar por mes (más reciente primero)
+                return Object.keys(groups)
+                    .sort((a, b) => b.localeCompare(a))
+                    .map(key => ({
+                        monthName: groups[key].name,
+                        commits: groups[key].commits.sort((a, b) => new Date(b.date) - new Date(a.date))
+                    }));
+            }
+
+            // Función para renderizar commits
+            function renderCommits(commits) {
+                if (!commits || commits.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 3rem;">
+                            <i class="fas fa-info-circle" style="font-size: 3rem; color: #f3cd7a;"></i>
+                            <p style="margin-top: 1rem;">No hay commits disponibles.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Calcular estadísticas
+                const totalCommits = commits.length;
+                const totalFiles = commits.reduce((acc, commit) => acc + (commit.files?.length || 0), 0);
+                const authors = [...new Set(commits.map(c => c.author))];
+
+                // Mostrar estadísticas
+                statsContainer.style.display = 'flex';
+                statsContainer.innerHTML = `
+                    <div class="stat-item">
+                        <span class="stat-value">${totalCommits}</span>
+                        <span class="stat-label">Commits totales</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">${totalFiles}</span>
+                        <span class="stat-label">Archivos modificados</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">${authors.length}</span>
+                        <span class="stat-label">Contribuyentes</span>
+                    </div>
+                `;
+
+                const monthsData = groupByMonth(commits);
+                let html = '';
+
+                monthsData.forEach(month => {
+                    html += `<div class="changelog-month">`;
+                    html += `<h2><i class="fas fa-calendar-alt"></i> ${month.monthName}</h2>`;
+
+                    month.commits.forEach(commit => {
+                        const shortHash = commit.commit.substring(0, 7);
+                        const hasFiles = commit.files && commit.files.length > 0;
+                        
+                        html += `
+                            <div class="commit-item">
+                                <div class="commit-header">
+                                    <span class="commit-icon"><i class="fas fa-code-commit"></i></span>
+                                    <span class="commit-hash" title="Hash completo: ${commit.commit}">${shortHash}</span>
+                                    <span class="commit-date"><i class="far fa-clock"></i> ${formatDate(commit.date)}</span>
+                                    <span class="commit-author"><i class="fas fa-user-circle"></i> ${commit.author}</span>
+                                </div>
+                                <div class="commit-title">
+                                    <i class="fas fa-${commit.message.toLowerCase().includes('merge') ? 'code-branch' : 'circle-check'}"></i>
+                                    ${commit.message}
+                                </div>
+                        `;
+
+                        if (hasFiles) {
+                            html += `
+                                <div class="commit-files">
+                                    <div class="commit-files-summary" onclick="this.parentElement.classList.toggle('expanded')">
+                                        <i class="fas fa-chevron-right"></i>
+                                        <span><i class="fas fa-files"></i> ${commit.files.length} archivo(s) modificado(s)</span>
+                                    </div>
+                                    <ul class="commit-files-list">
+                            `;
+
+                            // Mostrar solo los primeros 30 archivos para no sobrecargar
+                            const filesToShow = commit.files.slice(0, 30);
+                            filesToShow.forEach(file => {
+                                const icon = getFileIcon(file);
+                                html += `<li><i class="fas ${icon}"></i> ${file}</li>`;
+                            });
+
+                            if (commit.files.length > 30) {
+                                html += `<li style="color: #e6b85e; font-style: italic;">... y ${commit.files.length - 30} archivo(s) más</li>`;
+                            }
+
+                            html += `
+                                    </ul>
+                                </div>
+                            `;
+                        }
+
+                        html += `</div>`;
+                    });
+
+                    html += `</div>`;
+                });
+
+                container.innerHTML = html;
+                loadingMsg.style.display = 'none';
+            }
+
+            // Cargar datos desde el JSON
+            fetch(JSON_URL)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    renderCommits(data);
+                })
+                .catch(error => {
+                    console.error('Error cargando commits:', error);
+                    container.innerHTML = `
+                        <div class="error-message">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Error al cargar los commits</h3>
+                            <p>${error.message}</p>
+                            <p style="margin-top: 1rem;">Podés ver el historial directamente:</p>
+                            <a href="https://olympuswow.github.io/Changelogs-cata" target="_blank" class="btn-github">
+                                <i class="fab fa-github"></i> Ver commits
+                            </a>
+                        </div>
+                    `;
+                    loadingMsg.style.display = 'none';
+                });
+        });
+    </script>
+</body>
+</html>

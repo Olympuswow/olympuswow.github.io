@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olympus · Sistemas personalizados</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend+Deca:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="particle-overlay"></div>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="/assets/logo.png" alt="Olympus" height="50">
+                <span>OLYMPUS</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+                <li class="nav-item"><a href="historia.html" class="nav-link">Historia</a></li>
+                <li class="nav-item"><a href="sistemas.html" class="nav-link active">Sistemas</a></li>
+                <li class="nav-item"><a href="aprendizaje.html" class="nav-link">Aprendizaje</a></li>
+                <li class="nav-item"><a href="cambios.html" class="nav-link">Cambios</a></li>
+                <li class="nav-item"><a href="descargas.html" class="nav-link">Descargas</a></li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="wrapper">
+        <div class="page-header">
+            <i class="fas fa-cog"></i>
+            <h1>Sistemas Personalizados</h1>
+            <p class="page-description">Módulos desarrollados y adaptados para Olympus Cataclysm</p>
+        </div>
+
+        <div class="systems-grid">
+            <!-- Sistemas Principales -->
+            <div class="system-card featured">
+                <div class="system-header">
+                    <i class="fas fa-crown"></i>
+                    <h2>Sistema VIP</h2>
+                </div>
+                <p>Sistema completo de rangos VIP con beneficios exclusivos y recompensas diarias.</p>
+            </div>
+
+            <div class="system-card featured">
+                <div class="system-header">
+                    <i class="fas fa-rocket"></i>
+                    <h2>Lvl Boost por Token</h2>
+                </div>
+                <p>Boost de nivel mediante tokens, permitiendo alcanzar el nivel máximo rápidamente.</p>
+            </div>
+
+            <div class="system-card featured">
+                <div class="system-header">
+                    <i class="fas fa-shield-hammer"></i>
+                    <h2>Arenas Anti Empates</h2>
+                </div>
+                <p>Sistema personalizado que evita empates en arenas, garantizando siempre un ganador.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-spinner fa-pulse"></i>
+                    <h2>Suscripción <span class="badge">En desarrollo</span></h2>
+                </div>
+                <p>Sistema de suscripción mensual con beneficios progresivos.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-swords"></i>
+                    <h2>Arenas 1vs1 con MMR</h2>
+                </div>
+                <p>Matchmaking 1vs1 con cálculo de rating personalizado y temporadas competitivas.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-people-arrows"></i>
+                    <h2>Crossfaction PvP/PvE</h2>
+                </div>
+                <p>Interacción completa entre facciones en mazmorras, bandas y campos de batalla.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-map-marked-alt"></i>
+                    <h2>NPC Teleport</h2>
+                </div>
+                <p>Teletransporte a capitales, bandas (raids) y mazmorras mediante NPCs.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-magic"></i>
+                    <h2>Auto aprendizaje de poderes</h2>
+                </div>
+                <p>Aprendizaje automático de hechizos y habilidades al subir de nivel.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-medal"></i>
+                    <h2>Títulos PvP automáticos</h2>
+                </div>
+                <p>Otorgamiento automático de títulos según logros y rating obtenido.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-globe"></i>
+                    <h2>Chat global <span class="command">.world</span></h2>
+                </div>
+                <p>Comando .world para comunicación global entre todos los jugadores.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-vest"></i>
+                    <h2>NPC Transmog Custom</h2>
+                </div>
+                <p>Sistema de transmogrificación con opciones extendidas y combinaciones únicas.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-gem"></i>
+                    <h2>Nuevos items para transfiguración</h2>
+                </div>
+                <p>Items exclusivos y personalizados para transfiguración.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-horse"></i>
+                    <h2>Monturas vinculadas a la cuenta</h2>
+                </div>
+                <p>Todas las monturas obtenidas son compartidas entre personajes de la misma cuenta.</p>
+            </div>
+
+            <!-- Contenido Base Funcionando -->
+            <div class="system-card success">
+                <div class="system-header">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>Zonas iniciales</h2>
+                </div>
+                <p>Completamente funcionales y optimizadas.</p>
+            </div>
+
+            <div class="system-card success">
+                <div class="system-header">
+                    <i class="fas fa-dragon"></i>
+                    <h2>Bandas Cataclismo</h2>
+                </div>
+                <p>Todas las bandas de la expansión funcionando correctamente.</p>
+            </div>
+
+            <div class="system-card success">
+                <div class="system-header">
+                    <i class="fas fa-dungeon"></i>
+                    <h2>Mazmorras Cataclismo</h2>
+                </div>
+                <p>Mazmorras normales y heroicas completamente funcionales.</p>
+            </div>
+
+            <div class="system-card success">
+                <div class="system-header">
+                    <i class="fas fa-gavel"></i>
+                    <h2>Casa de subasta</h2>
+                </div>
+                <p>Sistema de subastas funcionando sin inconvenientes.</p>
+            </div>
+
+            <div class="system-card success">
+                <div class="system-header">
+                    <i class="fas fa-moon"></i>
+                    <h2>Feria de Luna Negra</h2>
+                </div>
+                <p>Evento y mecánicas de la feria implementadas.</p>
+            </div>
+
+            <div class="system-card success">
+                <div class="system-header">
+                    <i class="fas fa-trophy"></i>
+                    <h2>Rating Arena y RBG</h2>
+                </div>
+                <p>Sistema de rating funcionando con leaderboards actualizados.</p>
+            </div>
+
+            <div class="system-card success">
+                <div class="system-header">
+                    <i class="fas fa-shield"></i>
+                    <h2>Custom Anticheat</h2>
+                </div>
+                <p>Sistema anticheat personalizado activo y funcionando.</p>
+            </div>
+
+            <div class="system-card success">
+                <div class="system-header">
+                    <i class="fas fa-coins"></i>
+                    <h2>Currencies</h2>
+                </div>
+                <p>Sistema de monedas y puntos funcionando correctamente.</p>
+            </div>
+
+            <div class="system-card success">
+                <div class="system-header">
+                    <i class="fas fa-hat-wizard"></i>
+                    <h2>Poderes de clases</h2>
+                </div>
+                <p>Clases con poderes bastante aceptables y balanceados.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-level-up-alt"></i>
+                    <h2>NPC Lvl Boost</h2>
+                </div>
+                <p>NPC para boost de nivel mediante tokens.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-store"></i>
+                    <h2>In-game Shop via NPC</h2>
+                </div>
+                <p>Tienda dentro del juego accesible mediante NPC.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-hammer"></i>
+                    <h2>NPC Profesiones por token</h2>
+                </div>
+                <p>Aprendizaje y boost de profesiones mediante tokens.</p>
+            </div>
+
+            <div class="system-card">
+                <div class="system-header">
+                    <i class="fas fa-rotate-left"></i>
+                    <h2>NPC Reset Instances</h2>
+                </div>
+                <p>Reinicio de instancias mediante NPC.</p>
+            </div>
+
+            <div class="system-card highlight">
+                <div class="system-header">
+                    <i class="fas fa-language"></i>
+                    <h2>Traducciones</h2>
+                </div>
+                <p>Disponible en español e inglés.</p>
+            </div>
+
+            <div class="system-card highlight">
+                <div class="system-header">
+                    <i class="fas fa-shield-alt"></i>
+                    <h2>Alta estabilidad</h2>
+                </div>
+                <p>Alto nivel de estabilidad ante fallos y caídas del servidor.</p>
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <a href="historia.html" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Historia</a>
+            <a href="aprendizaje.html" class="btn btn-primary">Aprendizaje <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="index.html">Inicio</a>
+            <a href="historia.html">Historia</a>
+            <a href="sistemas.html">Sistemas</a>
+            <a href="aprendizaje.html">Aprendizaje</a>
+            <a href="cambios.html">Cambios</a>
+            <a href="descargas.html">Descargas</a>
+        </div>
+        <p class="footer-copyright"><i class="fas fa-hammer"></i> Olympus Cataclysm · 4.3.4</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

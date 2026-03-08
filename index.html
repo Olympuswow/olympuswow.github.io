@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Olympus Cataclysm · Bienvenido</title>
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lexend+Deca:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Principal -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="welcome-page">
+    <!-- Fondo de partículas -->
+    <div class="particle-overlay"></div>
+
+    <!-- BARRA DE NAVEGACIÓN (igual en todas las páginas) -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="/assets/logo.png" alt="Olympus" height="50">
+                <span>OLYMPUS</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link active">Inicio</a></li>
+                <li class="nav-item"><a href="historia.html" class="nav-link">Historia</a></li>
+                <li class="nav-item"><a href="sistemas.html" class="nav-link">Sistemas</a></li>
+                <li class="nav-item"><a href="aprendizaje.html" class="nav-link">Aprendizaje</a></li>
+                <li class="nav-item"><a href="cambios.html" class="nav-link">Cambios</a></li>
+                <li class="nav-item"><a href="descargas.html" class="nav-link">Descargas</a></li>
+            </ul>
+            <div class="nav-toggle" id="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main class="wrapper">
+        <!-- HERO PRINCIPAL (bienvenida) -->
+        <section class="welcome-hero">
+            <div class="welcome-icon">
+                <img src="/assets/logo.png" alt="Olympus" height="150">
+            </div>
+            <h1 class="welcome-title">OLYMPUS CATACLYSM</h1>
+            <p class="welcome-subtitle">Proyecto privado de emulación 4.3.4</p>
+            
+            <div class="welcome-description">
+                <p>Bienvenido al sitio oficial de mi proyecto personal de World of Warcraft. Aquí documentaré todo el trabajo, sistemas y aprendizaje detrás de Olympus Cataclysm.</p>
+                <p>Un servidor enfocado en la comunidad cubana, desarrollado junto a mis amigos Liosbel y Niobel, con el objetivo de entender y experimentar con la arquitectura interna de WoW.</p>
+            </div>
+            
+            <div class="welcome-stats">
+                <div class="stat-card">
+                    <i class="fas fa-calendar"></i>
+                    <span class="stat-number">2026</span>
+                    <span class="stat-text">En desarrollo</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-cogs"></i>
+                    <span class="stat-number">20+</span>
+                    <span class="stat-text">Sistemas personalizados</span>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <span class="stat-number">3</span>
+                    <span class="stat-text">Fundadores</span>
+                </div>
+            </div>
+            
+            <div class="welcome-cta">
+                <a href="historia.html" class="btn btn-primary btn-large">
+                    <i class="fas fa-scroll"></i> Conocer la historia
+                </a>
+                <a href="descargas.html" class="btn btn-secondary btn-large">
+                    <i class="fas fa-download"></i> Descargar Repack
+                </a>
+            </div>
+        </section>
+
+        <!-- SECCIÓN NATIVO: Tecnología y esencia del proyecto -->
+<section class="native-section">
+    <div class="native-header">
+        <span class="native-badge">
+            <i class="fas fa-crown"></i> NATIVO
+        </span>
+        <h2>La esencia de <span class="gradient-text">Olympus</span></h2>
+        <p class="section-subtitle">Construido desde cero con tecnología original y adaptaciones personalizadas para la comunidad cubana</p>
+    </div>
+
+    <!-- Tarjetas principales de 3 columnas -->
+    <div class="native-grid">
+        <!-- Core nativo -->
+        <div class="native-card">
+            <div class="card-glow"></div>
+            <div class="card-icon">
+                <i class="fas fa-microchip"></i>
+            </div>
+            <h3>Core nativo</h3>
+            <p class="card-description">Basado en TrinityCore 4.3.4 con modificaciones profundas en el núcleo para lograr un comportamiento único y estable.</p>
+            <ul class="native-feature-list">
+                <li><i class="fas fa-bolt"></i> Optimizaciones de rendimiento</li>
+                <li><i class="fas fa-shield"></i> Parches de seguridad personalizados</li>
+                <li><i class="fas fa-puzzle-piece"></i> Sistema de módulos propio</li>
+            </ul>
+        </div>
+
+        <!-- Hecho a mano (destacado) -->
+        <div class="native-card featured">
+            <div class="card-badge">
+                <i class="fas fa-star"></i> ARTESANAL
+            </div>
+            <div class="card-icon">
+                <i class="fas fa-feather"></i>
+            </div>
+            <h3>Hecho a mano</h3>
+            <p class="card-description">Cada línea de código, cada sistema y cada ajuste ha sido implementado manualmente, sin depender de soluciones genéricas.</p>
+            <div class="handmade-quote">
+                <i class="fas fa-quote-left"></i>
+                <blockquote>"No es un simple repack, es una reinterpretación personal de World of Warcraft"</blockquote>
+            </div>
+        </div>
+
+        <!-- Raíces locales -->
+        <div class="native-card">
+            <div class="card-glow"></div>
+            <div class="card-icon">
+                <i class="fas fa-handshake"></i>
+            </div>
+            <h3>Raíces locales</h3>
+            <p class="card-description">Diseñado pensando en la comunidad cubana, con adaptaciones culturales y lingüísticas que lo hacen único.</p>
+            <ul class="native-feature-list">
+                <li><i class="fas fa-language"></i> Traducciones español/inglés</li>
+                <li><i class="fas fa-calendar-alt"></i> Eventos locales programados</li>
+                <li><i class="fas fa-clock"></i> Soporte en horario de Cuba</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Características técnicas (4 columnas) -->
+    <div class="tech-showcase">
+        <h3 class="tech-showcase-title">
+            <i class="fas fa-code"></i>
+            <span>Tecnología nativa</span>
+        </h3>
+        
+        <div class="tech-grid">
+            <div class="tech-item-card">
+                <div class="tech-icon">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h4>Base de datos optimizada</h4>
+                <p>Estructura nativa con consultas personalizadas y reducción de latencia</p>
+                <div class="tech-tags">
+                    <span>MySQL</span>
+                    <span>Optimizado</span>
+                </div>
+            </div>
+
+            <div class="tech-item-card">
+                <div class="tech-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h4>Protocolo adaptado</h4>
+                <p>Modificaciones en el protocolo de red para mejor rendimiento en conexiones cubanas</p>
+                <div class="tech-tags">
+                    <span>TCP/IP</span>
+                    <span>Latencia reducida</span>
+                </div>
+            </div>
+
+            <div class="tech-item-card">
+                <div class="tech-icon">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <h4>Anticheat original</h4>
+                <p>Sistema de detección desarrollado específicamente para Olympus</p>
+                <div class="tech-tags">
+                    <span>Anti-WPE</span>
+                    <span>Anti-speed</span>
+                </div>
+            </div>
+
+            <div class="tech-item-card">
+                <div class="tech-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h4>Scripting C++ nativo</h4>
+                <p>Modificaciones directas en el core con scripts en C++ para mecánicas exclusivas y personalizadas</p>
+                <div class="tech-tags">
+                    <span>C++ 17</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tech Stack visual (píldoras tecnológicas) -->
+    <div class="tech-stack-wrapper">
+        <div class="stack-container">
+            <span class="stack-pill">
+                <i class="fas fa-code"></i> C++ nativo
+            </span>
+            <span class="stack-pill">
+                <i class="fas fa-database"></i> MySQL optimizado
+            </span>
+            <span class="stack-pill">
+                <i class="fas fa-code-branch"></i> TrinityCore fork
+            </span>
+            <span class="stack-pill">
+                <i class="fas fa-globe"></i> Protocolo 4.3.4
+            </span>
+        </div>
+    </div>
+
+    <!-- Decoración adicional -->
+    <div class="native-decoration">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+    </div>
+</section>
+
+        <!-- EMULADOR BASE (destacado) -->
+        <div class="emulator-spotlight">
+            <div class="spotlight-content">
+                <i class="fas fa-code-branch"></i>
+                <div>
+                    <span class="spotlight-label">Basado en</span>
+                    <h3>OlympusCore 4.3.4</h3>
+                    <p>Fork personalizado con módulos propios y optimizaciones</p>
+                </div>
+            </div>
+            <a href="descargas.html" class="btn btn-primary">
+                <i class="fas fa-download"></i> Obtener repack
+            </a>
+        </div>
+    </main>
+
+    <!-- FOOTER (igual en todas las páginas) -->
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="index.html">Inicio</a>
+            <a href="historia.html">Historia</a>
+            <a href="sistemas.html">Sistemas</a>
+            <a href="aprendizaje.html">Aprendizaje</a>
+            <a href="cambios.html">Cambios</a>
+            <a href="descargas.html">Descargas</a>
+        </div>
+        <p class="footer-copyright">
+            <i class="fas fa-hammer"></i> Olympus Cataclysm · 4.3.4 · Proyecto educativo
+        </p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
