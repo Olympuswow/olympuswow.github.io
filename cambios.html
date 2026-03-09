@@ -48,7 +48,7 @@
         <!-- Contenedor principal de changelogs -->
         <div class="changelog-full" id="changelog-container">
             <div class="loading-message" id="loading-message">
-                <i class="fas fa-spinner"></i> Cargando historial de commits desde el repositorio...
+                <i class="fas fa-spinner fa-spin"></i> Cargando historial de commits desde el repositorio...
             </div>
         </div>
 
@@ -89,19 +89,24 @@
 
             // Función para formatear fecha
             function formatDate(dateString) {
-                const date = new Date(dateString);
-                return date.toLocaleString('es-ES', {
-                    year: 'numeric',
-                    month: '2-digit',
-                    day: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    timeZoneName: 'short'
-                });
+                try {
+                    const date = new Date(dateString);
+                    return date.toLocaleString('es-ES', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        timeZoneName: 'short'
+                    });
+                } catch (e) {
+                    return 'Fecha inválida';
+                }
             }
 
             // Función para obtener ícono según tipo de archivo
             function getFileIcon(filename) {
+                if (!filename) return 'fa-file-code';
                 if (filename.endsWith('.sql')) return 'fa-database';
                 if (filename.endsWith('.cpp') || filename.endsWith('.h')) return 'fa-code';
                 if (filename.endsWith('.cmake') || filename.includes('CMake')) return 'fa-cubes';
@@ -112,22 +117,38 @@
                 return 'fa-file-code';
             }
 
+            // Función para sanitizar texto (evitar problemas con caracteres especiales)
+            function sanitizeText(text) {
+                if (!text) return '';
+                return String(text)
+                    .replace(/[<>]/g, '') // Eliminar etiquetas HTML
+                    .replace(/&/g, '&amp;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
             // Función para agrupar commits por mes
             function groupByMonth(commits) {
                 const groups = {};
                 
                 commits.forEach(commit => {
-                    const date = new Date(commit.date);
-                    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-                    const monthName = date.toLocaleString('es-ES', { year: 'numeric', month: 'long' });
-                    
-                    if (!groups[monthKey]) {
-                        groups[monthKey] = {
-                            name: monthName,
-                            commits: []
-                        };
+                    try {
+                        const date = new Date(commit.date);
+                        if (isNaN(date.getTime())) return; // Saltar fechas inválidas
+                        
+                        const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                        const monthName = date.toLocaleString('es-ES', { year: 'numeric', month: 'long' });
+                        
+                        if (!groups[monthKey]) {
+                            groups[monthKey] = {
+                                name: monthName,
+                                commits: []
+                            };
+                        }
+                        groups[monthKey].commits.push(commit);
+                    } catch (e) {
+                        console.warn('Error procesando commit:', e);
                     }
-                    groups[monthKey].commits.push(commit);
                 });
 
                 // Ordenar por mes (más reciente primero)
@@ -143,9 +164,13 @@
             function renderCommits(commits) {
                 if (!commits || commits.length === 0) {
                     container.innerHTML = `
-                        <div style="text-align: center; padding: 3rem;">
-                            <i class="fas fa-info-circle" style="font-size: 3rem; color: #f3cd7a;"></i>
-                            <p style="margin-top: 1rem;">No hay commits disponibles.</p>
+                        <div class="error-message">
+                            <i class="fas fa-info-circle"></i>
+                            <h3>No hay commits disponibles</h3>
+                            <p style="margin-top: 1rem;">Podés ver el historial directamente:</p>
+                            <a href="https://olympuswow.github.io/Changelogs-cata" target="_blank" class="btn-github">
+                                <i class="fab fa-github"></i> Ver commits en GitHub
+                            </a>
                         </div>
                     `;
                     return;
@@ -154,7 +179,7 @@
                 // Calcular estadísticas
                 const totalCommits = commits.length;
                 const totalFiles = commits.reduce((acc, commit) => acc + (commit.files?.length || 0), 0);
-                const authors = [...new Set(commits.map(c => c.author))];
+                const authors = [...new Set(commits.map(c => c.author).filter(Boolean))];
 
                 // Mostrar estadísticas
                 statsContainer.style.display = 'flex';
@@ -178,23 +203,23 @@
 
                 monthsData.forEach(month => {
                     html += `<div class="changelog-month">`;
-                    html += `<h2><i class="fas fa-calendar-alt"></i> ${month.monthName}</h2>`;
+                    html += `<h2><i class="fas fa-calendar-alt"></i> ${sanitizeText(month.monthName)}</h2>`;
 
                     month.commits.forEach(commit => {
-                        const shortHash = commit.commit.substring(0, 7);
+                        const shortHash = commit.commit ? commit.commit.substring(0, 7) : '???????';
                         const hasFiles = commit.files && commit.files.length > 0;
                         
                         html += `
                             <div class="commit-item">
                                 <div class="commit-header">
                                     <span class="commit-icon"><i class="fas fa-code-commit"></i></span>
-                                    <span class="commit-hash" title="Hash completo: ${commit.commit}">${shortHash}</span>
+                                    <span class="commit-hash" title="Hash completo: ${sanitizeText(commit.commit || '')}">${sanitizeText(shortHash)}</span>
                                     <span class="commit-date"><i class="far fa-clock"></i> ${formatDate(commit.date)}</span>
-                                    <span class="commit-author"><i class="fas fa-user-circle"></i> ${commit.author}</span>
+                                    <span class="commit-author"><i class="fas fa-user-circle"></i> ${sanitizeText(commit.author || 'Desconocido')}</span>
                                 </div>
                                 <div class="commit-title">
-                                    <i class="fas fa-${commit.message.toLowerCase().includes('merge') ? 'code-branch' : 'circle-check'}"></i>
-                                    ${commit.message}
+                                    <i class="fas fa-${(commit.message || '').toLowerCase().includes('merge') ? 'code-branch' : 'circle-check'}"></i>
+                                    ${sanitizeText(commit.message || 'Sin mensaje')}
                                 </div>
                         `;
 
@@ -212,7 +237,7 @@
                             const filesToShow = commit.files.slice(0, 30);
                             filesToShow.forEach(file => {
                                 const icon = getFileIcon(file);
-                                html += `<li><i class="fas ${icon}"></i> ${file}</li>`;
+                                html += `<li><i class="fas ${icon}"></i> ${sanitizeText(file)}</li>`;
                             });
 
                             if (commit.files.length > 30) {
@@ -235,16 +260,40 @@
                 loadingMsg.style.display = 'none';
             }
 
+            // Función para intentar parsear JSON con manejo de errores
+            function parseJSON(text) {
+                try {
+                    return JSON.parse(text);
+                } catch (e) {
+                    console.error('Error parseando JSON:', e);
+                    // Intentar limpiar el JSON si es posible
+                    try {
+                        // Eliminar caracteres de control y escapar correctamente
+                        const cleaned = text
+                            .replace(/[\u0000-\u001F\u007F-\u009F]/g, '') // Eliminar caracteres de control
+                            .replace(/\\(?!["\\/bfnrt])/g, '\\\\'); // Escapar backslashes incorrectos
+                        return JSON.parse(cleaned);
+                    } catch (e2) {
+                        throw new Error('El archivo JSON contiene caracteres inválidos y no puede ser procesado');
+                    }
+                }
+            }
+
             // Cargar datos desde el JSON
             fetch(JSON_URL)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error(`Error HTTP: ${response.status}`);
+                        throw new Error(`Error HTTP: ${response.status} - ${response.statusText}`);
                     }
-                    return response.json();
+                    return response.text(); // Obtener como texto primero
                 })
-                .then(data => {
-                    renderCommits(data);
+                .then(text => {
+                    try {
+                        const data = parseJSON(text);
+                        renderCommits(data);
+                    } catch (e) {
+                        throw new Error('Error al procesar los datos del repositorio: ' + e.message);
+                    }
                 })
                 .catch(error => {
                     console.error('Error cargando commits:', error);
@@ -253,15 +302,62 @@
                             <i class="fas fa-exclamation-triangle"></i>
                             <h3>Error al cargar los commits</h3>
                             <p>${error.message}</p>
-                            <p style="margin-top: 1rem;">Podés ver el historial directamente:</p>
-                            <a href="https://olympuswow.github.io/Changelogs-cata" target="_blank" class="btn-github">
-                                <i class="fab fa-github"></i> Ver commits
-                            </a>
+                            <p style="margin-top: 2rem;">Mientras solucionamos este problema, podés ver el historial directamente en GitHub:</p>
+                            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+                                <a href="https://olympuswow.github.io/Changelogs-cata" target="_blank" class="btn-github">
+                                    <i class="fab fa-github"></i> Ver commits en GitHub
+                                </a>
+                                <a href="https://github.com/OlympusWoW/Changelogs-cata/commits" target="_blank" class="btn-github">
+                                    <i class="fab fa-github"></i> Commits en GitHub
+                                </a>
+                            </div>
                         </div>
                     `;
                     loadingMsg.style.display = 'none';
                 });
         });
     </script>
+
+    <style>
+        /* Estilos adicionales para mensajes de error */
+        .error-message {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(255, 107, 107, 0.1);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+        
+        .error-message i {
+            font-size: 3rem;
+            color: #ff6b6b;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-github {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+            border: 1px solid #444;
+        }
+        
+        .btn-github:hover {
+            background: #444;
+            transform: translateY(-2px);
+        }
+        
+        .loading-message i {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </body>
 </html>
